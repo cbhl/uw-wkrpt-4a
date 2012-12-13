@@ -37,6 +37,10 @@
 \DeclareOption{se}{%
   \uwwkrpt@setrue
   \write10{([se] Software Engineering report)}}
+\newif\ifuwwkrpt@resubmit \uwwkrpt@resubmitfalse
+\DeclareOption{resubmit}{%
+  \uwwkrpt@resubmittrue
+  \write10{([resubmit] Resubmitted report)}}
 \ifthenelse{\boolean{uwwkrpt@ece}}{%
   \def\uwwkrpt@textsize{11pt}}{%
   \def\uwwkrpt@textsize{12pt}}
@@ -219,8 +223,16 @@
   \ifthenelse{\boolean{uwwkrpt@ece}
               \or \boolean{uwwkrpt@math}
               \or \boolean{uwwkrpt@se}}
-    {I also confirm that this report has not been previously submitted
-    for academic credit at this or any other academic institution.}
+    {\ifthenelse{\boolean{uwwkrpt@resubmit}}
+      {
+        I also confirm that this report is a resubmission of a report that was
+        previously submitted for academic credit at this academic institution
+        and graded as unacceptable.
+      }{
+        I also confirm that this report has not been previously submitted
+        for academic credit at this or any other academic institution.
+      }
+    }
     {This report was written entirely by me and has not received
     any previous academic credit at this or any other institution.}
   \ifthenelse{\boolean{uwwkrpt@math}}{%
