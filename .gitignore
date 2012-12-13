@@ -2,9 +2,8 @@
 *.DS_Store
 
 # Ignore generated files
-uw-ece-workreport.cls
-uw-wkrpt.drv
-uw-wkrpt*.pdf
+report.drv
+report*.pdf
 
 # Ignore biber files
 *.bcf
