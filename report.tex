@@ -185,23 +185,49 @@ learned from the issues presented to future software projects.
 
 % You must have an Introduction
 \section{Introduction}\label{sec:intro}
-This pretend report, written by an imaginary student,
-exists because I got sick of writing a report,
-and having to check my document over and over again for simple
-formatting errors.  Now, I thought that a work report is useful
-due to its content; not because my Table of Contents did not have dot
-leading for page numbers.  So, I turned to \LaTeX{} as my saviour.
+YouTube provides a web-based tool that allows users to perform minor
+enhancements to their videos without installing additional software on their
+computer.
 
-I, Simon Law, implemented my first work report in \LaTeX{} in early
-December 2001.  Unfortunately, I was feeling my way around and didn't
-implement my scheme very well.  After learning how to create a
-document class, I have created this document class, which I now offer 
-to you.
+The enhancement tool is comprised of two parts: client-side code and preview
+servers. The client-side code is primarily written in JavaScript, and runs in
+users’ web browsers. The preview servers run on proprietary Google
+infrastructure.
 
-If you find a problem with this document class, or have suggestions to
-offer; please drop me a note.  As well, patches and fixes are always
-welcome.  You can find information on how to contact me in Appendix 
-\ref{app:colophon}.
+When a user modifies a video with the tool, the client-side code generates a
+computer-readable description of the changes made to the video called an edit
+list. The client-side code then sends the edit list to the preview server. The
+preview server uses the edit list and the user’s original video (which has
+already been uploaded to YouTube) to generate a low-fidelity version of the
+video. It returns the location of the low-fidelity preview video to the
+client-side code, which then displays the preview video to the user.
+
+\section{Problem Statement}\label{sec:problem}
+A large number of UI events may be generated when the user positions or trims an
+audio clip on the enhance page. When a large number of events occur, the user
+experiences a large delay before seeing a preview that corresponds with their
+most recent change.
+
+In order to protect proprietary design decisions, it is assumed that a user
+interaction generates 150 events over five seconds at a constant rate of 30
+events per second. It is also assumed that requests will be processed one at a
+time.\footnote{According to \cite{ref:http}, HTTP user agents should limit
+themselves to two concurrent requests. It can be seen in \cite{ref:b423377} that
+many browsers use more (say, four or six). However, this is omitted from the
+simulations for simplicity.} Finally, it is assumed that a server response will
+take 600 ms.\footnote{The calculation to determine this figure is noted in
+\ref{app:calculating}.}
+
+A simulation of the request queue length for the first 100 seconds after the
+start of the interaction is shown in \ref{fig:simulated}.
+
+\begin{figure}
+  \centering
+%  \includegraphics[height=3.0in]{don-hires}
+  STUB
+  \caption{Simulated Request Queue Length (Original Implementation).}
+  \label{fig:simulated}
+\end{figure}
 
 % You must have either an Analysis or a Synthesis section.
 \section{Synthesis}
@@ -504,6 +530,9 @@ typeset it.
 %% Don't forget to refer to all your appendices in the main report.
 \appendix
 \begin{appendices}
+
+\section{Calculating Simulated Server Response Time}\label{app:calculating}
+STUB!
 
 \section{Bugs}\label{app:bugs}
 Currently, there are some known problems with this document class.
