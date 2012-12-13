@@ -130,9 +130,10 @@ Online Video Editor Built on a Client-Server Architecture }
 % After this, we must create a letter of submission.
 \begin{letter}
 I have just completed my fourth work term, following my \theterm{} term.  Please
-find enclosed my third work term report entitled: ``\thetitle'' for YouTube LLC,
-a subsidiary of \theemployer.  My manager was Bob Glickstein, and our team was
-primarily involved with building tools for video creators and content curators.
+find enclosed my third work term report entitled: ``\thetitle'' for YouTube,
+LLC, a subsidiary of \theemployer.  My manager was Bob Glickstein, and our team
+was primarily involved with building tools for video creators and content
+curators.
 
 This report focuses on the handling of input events in the video enhancement
 tool on YouTube. This problem is similar to one that I encountered on my work
@@ -151,21 +152,23 @@ report.
 
 % We continue with required sections, such as the Executive Summary.
 \section{Executive Summary}
-This document describes the use of the \texttt{uw-wkrpt.cls}
-document class in creating work reports.  Written in the 
-\LaTeX{} macro language, this document class is designed to typeset 
-documents that conform to the University of Waterloo co-op student 
-manual~\cite{ref:coopman} requirements.  The class has been generalised
-from the earlier \texttt{uw-ece-workreport} document class so that it
-may be used by students of any faculty.  This particular report 
-serves as an example for the University of Waterloo, Electrical and 
-Computer Engineering work report guidelines~\cite{ref:eceguidelines}.  
-Other example reports for other faculties are included with this package.
+AudioSwap is one of the video enhancement features available to video creators
+on YouTube. It allows video creators to select a song from a library of over
+100,000 songs that YouTube has licensed. The initial implemention of AudioSwap
+only allowed users to place the audio at the beginning of their video, and to
+use the song in its entirety. One of the major accomplishments of my work term
+was to implement user interface changes which allow video creators to position
+and trim tracks they've placed over their videos using AudioSwap.
 
-I also argue the advantages of using this document class over other
-more traditional ways of generating a report.  I hope to convince the
-reader that using this technology is superior to writing the document
-in a WYSIWYG word processor.
+This document describes issues which arose when these changes were first
+publicly deployed. It also describes some ways those issues could be mitigated,
+and uses the multi-criteria decision making methdology to rank these mitigation
+strategies.
+
+Finally, I tie the conclusions of the report to the material in CS 349 - User
+Interfaces, which is a core course in the Software Engineering curriculum, and
+present some general considerations for adapting the lessons learned from the
+issues presented to future software projects.
 
 % Next, we need to make a Table of Contents, List of Figures and 
 % List of Tables.  You will most likely need to run LaTeX twice to
