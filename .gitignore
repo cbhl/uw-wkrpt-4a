@@ -4,6 +4,7 @@
 # Ignore generated files
 report.drv
 report*.pdf
+*.fls
 
 # Ignore biber files
 *.bcf
