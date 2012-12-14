@@ -46,6 +46,8 @@
 \usepackage[style=ieee,sorting=none,dateabbrev=false,backend=biber]{biblatex}
 \addbibresource{report.bib} % Specify the bibliography file
 
+\usepackage{listings}
+
 % This needs to be the last package loaded
 \usepackage[pdftex]{hyperref} % Generate PDF links and bookmarks.
 \hypersetup{
@@ -211,6 +213,15 @@ flow is illustrated in the swimlane activity diagram in
   \label{fig:swimlane}
 \end{figure}
 
+\ref{fig:editlist}
+
+\begin{figure}
+  \centering
+  \lstinputlisting{editlist.json}
+  \caption{Sample Edit List.}
+  \label{fig:editlist}
+\end{figure}
+
 \section{Problem Statement}\label{sec:problem}
 A large number of UI events may be generated when the user positions or trims an
 audio clip on the enhance page. When a large number of events occur, the user
@@ -232,7 +243,7 @@ start of the interaction is shown in \ref{fig:sim-orig}.
 
 \begin{figure}
   \centering
-  \includegraphics{sim-orig}
+  \includegraphics[width=6.25in]{sim-orig}
   \caption{Simulated Request Queue Length (Original Implementation).}
   \label{fig:sim-orig}
 \end{figure}
@@ -303,21 +314,21 @@ ms.
 
 \begin{figure}
   \centering
-  \includegraphics{sim-300ms}
+  \includegraphics[width=6.25in]{sim-300ms}
   \caption{Simulated Request Queue Length (300ms delay).}
   \label{fig:sim-300ms}
 \end{figure}
 
 \begin{figure}
   \centering
-  \includegraphics{sim-600ms}
+  \includegraphics[width=6.25in]{sim-600ms}
   \caption{Simulated Request Queue Length (600ms delay).}
   \label{fig:sim-600ms}
 \end{figure}
 
 \begin{figure}
   \centering
-  \includegraphics{sim-1000ms}
+  \includegraphics[width=6.25in]{sim-1000ms}
   \caption{Simulated Request Queue Length (1000ms delay).}
   \label{fig:sim-1000ms}
 \end{figure}

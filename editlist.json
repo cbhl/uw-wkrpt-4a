@@ -1,0 +1,47 @@
+{
+   "vc":[
+      {
+         "type":"video",
+         "id":"jUhj_IKYx10",
+         "start_ms":0,
+         "end_ms":382882,
+         "length_ms":382882,
+         "effects":[
+
+         ]
+      }
+   ],
+   "ac":[
+      {
+         "type":"synthetic-video",
+         "id":null,
+         "start_ms":0,
+         "end_ms":15000,
+         "length_ms":15000,
+         "effects":[
+            {
+               "id":"SILENT_AUDIO",
+               "parameters":{
+
+               }
+            }
+         ]
+      },
+      {
+         "type":"audio",
+         "id":"bcgo6zlW4X-Rge-ly6quJ-MtO-wEImhmJvVzUQg7JkMcNv62lQF35AcNgRpAmMFc",
+         "start_ms":0,
+         "end_ms":30000,
+         "length_ms":211000,
+         "effects":[
+
+         ]
+      }
+   ],
+   "qid":1363,
+   "preview_mode":"normal",
+   "encrypted_project_id":"kT9c8hmpKFwzLnp9lVuVxdrpxTqzLkDH",
+   "update":"1",
+   "action_preview":1,
+   "session_token":"7F6VaoLRFjaRGAfA7cST-uQqJ3J8MTM1NTUzOTYwM0AxMzU1NDUzMjAz"
+}
