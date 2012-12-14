@@ -6,9 +6,7 @@
          "start_ms":0,
          "end_ms":382882,
          "length_ms":382882,
-         "effects":[
-
-         ]
+         "effects":[ ]
       }
    ],
    "ac":[
@@ -21,21 +19,17 @@
          "effects":[
             {
                "id":"SILENT_AUDIO",
-               "parameters":{
-
-               }
+               "parameters":{ }
             }
          ]
       },
       {
          "type":"audio",
-         "id":"bcgo6zlW4X-Rge-ly6quJ-MtO-wEImhmJvVzUQg7JkMcNv62lQF35AcNgRpAmMFc",
+         "id":"bcgo6zlW4X-Rge-ly6quJ-MtO-wEImhmJvVzUQg7JkMcNv6..."
          "start_ms":0,
          "end_ms":30000,
          "length_ms":211000,
-         "effects":[
-
-         ]
+         "effects":[ ]
       }
    ],
    "qid":1363,
@@ -43,5 +37,5 @@
    "encrypted_project_id":"kT9c8hmpKFwzLnp9lVuVxdrpxTqzLkDH",
    "update":"1",
    "action_preview":1,
-   "session_token":"7F6VaoLRFjaRGAfA7cST-uQqJ3J8MTM1NTUzOTYwM0AxMzU1NDUzMjAz"
+   "session_token":"7F6VaoLRFjaRGAfA7cST-uQqJ3J8MTM1NTUzOTYwM0..."
 }
