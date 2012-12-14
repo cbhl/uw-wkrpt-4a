@@ -200,7 +200,16 @@ list. The client-side code then sends the edit list to the preview server. The
 preview server uses the edit list and the user's original video (which has
 already been uploaded to YouTube) to generate a low-fidelity version of the
 video. It returns the location of the low-fidelity preview video to the
-client-side code, which then displays the preview video to the user.
+client-side code, which then displays the preview video to the user. This
+flow is illustrated in the swimlane activity diagram in
+\ref{fig:swimlane}.
+
+\begin{figure}
+  \centering
+  \includegraphics{swimlane}
+  \caption{Position/Trim Audio Swimlane Activity Diagram.}
+  \label{fig:swimlane}
+\end{figure}
 
 \section{Problem Statement}\label{sec:problem}
 A large number of UI events may be generated when the user positions or trims an
