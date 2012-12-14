@@ -219,14 +219,13 @@ take 600 ms.\footnote{The calculation to determine this figure is noted in
 \ref{app:calculating}.}
 
 A simulation of the request queue length for the first 100 seconds after the
-start of the interaction is shown in \ref{fig:simulated}.
+start of the interaction is shown in \ref{fig:sim-orig}.
 
 \begin{figure}
   \centering
-%  \includegraphics[height=3.0in]{don-hires}
-  STUB
+  \includegraphics{sim-orig}
   \caption{Simulated Request Queue Length (Original Implementation).}
-  \label{fig:simulated}
+  \label{fig:sim-orig}
 \end{figure}
 
 % You must have either an Analysis or a Synthesis section.
@@ -242,7 +241,7 @@ this report.
 The results of \ref{tbl:mcdm} indicate that sending one edit list to the
 preview server every $\Delta t$ is the best solution. A number of simulations was
 performed to determine the best value of $\Delta t$. A sample of these
-simulations is shown below as FIXME. Of the simulations performed, the value
+simulations is shown below in \ref{fig:sim-300ms}, \ref{fig:sim-600ms}, and \ref{fig:sim-1000ms}. Of the simulations performed, the value
 $\Delta t=600 ms$ provided the most frequent preview updates to the user while
 maintaining a bounded request queue size, and thus it is recommended that the
 implementation be changed to send an edit list to the preview server every 600
@@ -292,6 +291,27 @@ ms.
     \hline
   \end{tabular}
 \end{table}
+
+\begin{figure}
+  \centering
+  \includegraphics{sim-300ms}
+  \caption{Simulated Request Queue Length (300ms delay).}
+  \label{fig:sim-300ms}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics{sim-600ms}
+  \caption{Simulated Request Queue Length (600ms delay).}
+  \label{fig:sim-600ms}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics{sim-1000ms}
+  \caption{Simulated Request Queue Length (1000ms delay).}
+  \label{fig:sim-1000ms}
+\end{figure}
 
 % You must have a Conclusions section
 \section{Conclusions}
