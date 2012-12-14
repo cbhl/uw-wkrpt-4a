@@ -131,22 +131,25 @@ Online Video Editor Built on a Client-Server Architecture }
 
 % After this, we must create a letter of submission.
 \begin{letter}
-I have just completed my fourth work term, following my \theterm{} term.  Please
-find enclosed my third work term report entitled: ``\thetitle'' for YouTube,
-LLC, a subsidiary of \theemployer.  My manager was Bob Glickstein, and our team
-was primarily involved with building tools for video creators and content
-curators.
+I have just completed my fourth work term, following my \theterm{} term.
+Please find enclosed my third work term report entitled: ``\thetitle'' for
+YouTube, LLC, a subsidiary of \theemployer.  My manager was Bob
+Glickstein, and our team was primarily involved with building tools for
+video creators and content curators.
 
-This report focuses on the handling of input events in the video enhancement
-tool on YouTube. This problem is similar to one that I encountered on my work
-term, but has been modified to protect proprietary design decisions.
+This report focuses on the handling of input events in the video
+enhancement tool on YouTube. This problem is similar to one that I
+encountered on my work term, but has been modified to protect proprietary
+design decisions.
 
-I wish to thank B. Glickstein and R. Doshi for their advice on the technical
-content of this report. I also wish to thank C. Kleynhans and M. Yee for their
-advice on choosing a word processing environment to write this report. In
-addition, I wish to thank W. Chang for proofreading this report. Finally, I wish
-to thank A. Mortezaei for providing feedback on the initial submission of this
-report.
+I wish to thank B. Glickstein and R. Doshi for their advice on the
+technical content of this report. I also wish to thank C. Kleynhans and M.
+Yee for their advice on choosing a word processing environment to write
+this report, and W. Chang for proofreading this report. In addition, I
+wish to thank A. Mortezaei for providing feedback on the initial
+submission of this report. Finally, thanks to Simon Law et al., for
+creating and maintaining the \textsf{uw-wkrpt} document class which I used
+to typeset the report.
 % Note that I do not need to type out the boilerplate confirmation,
 % nor do I need to write a signature block.  This is generated for me.
 % We are now finished with the letter.
@@ -154,21 +157,23 @@ report.
 
 % We continue with required sections, such as the Executive Summary.
 \section{Executive Summary}
-AudioSwap is one of the video enhancement features available to video creators
-on YouTube. It allows video creators to select a song from a library of over
-100,000 songs that YouTube has licensed. The initial implemention of AudioSwap
-only allowed users to place the audio at the beginning of their video, and to
-use the song in its entirety. One of the major accomplishments of my work term
-was to implement user interface changes which allow video creators to position
-and trim tracks they've placed over their videos using AudioSwap.
+AudioSwap is one of the video enhancement features available to video
+creators on YouTube. It allows video creators to select a song from a
+library of over 100,000 songs that YouTube has licensed. The initial
+implemention of AudioSwap only allowed users to place the audio at the
+beginning of their video, and to use the song in its entirety. One of the
+major accomplishments of my work term was to implement user interface
+changes which allow video creators to position and trim tracks they've
+placed over their videos using AudioSwap.
 
 This document describes issues which arose when these changes were first
-publicly deployed. It also describes some ways those issues could be mitigated,
-and uses the multi-criteria decision making methdology to rank these mitigation
-strategies. Finally, it discusses these issues in the context of the material in
-CS 349 - User Interfaces, which is a core course in the Software Engineering
-curriculum, and presents some general considerations for adapting the lessons
-learned from the issues presented to future software projects.
+publicly deployed. It also describes some ways those issues could be
+mitigated, and uses the multi-criteria decision making methdology to rank
+these mitigation strategies. Finally, it discusses these issues in the
+context of the material in CS 349 - User Interfaces, which is a core
+course in the Software Engineering curriculum, and presents some general
+considerations for adapting the lessons learned from the issues presented
+to future software projects.
 
 % Next, we need to make a Table of Contents, List of Figures and 
 % List of Tables.  You will most likely need to run LaTeX twice to
@@ -188,23 +193,23 @@ learned from the issues presented to future software projects.
 % You must have an Introduction
 \section{Introduction}\label{sec:intro}
 YouTube provides a web-based tool that allows users to perform minor
-enhancements to their videos without installing additional software on their
-computer.
+enhancements to their videos without installing additional software on
+their computer.
 
-The enhancement tool is comprised of two parts: client-side code and preview
-servers. The client-side code is primarily written in JavaScript, and runs in
-users' web browsers. The preview servers run on proprietary Google
-infrastructure.
+The enhancement tool is comprised of two parts: client-side code and
+preview servers. The client-side code is primarily written in JavaScript,
+and runs in users' web browsers. The preview servers run on proprietary
+Google infrastructure.
 
-When a user modifies a video with the tool, the client-side code generates a
-computer-readable description of the changes made to the video called an edit
-list. The client-side code then sends the edit list to the preview server. The
-preview server uses the edit list and the user's original video (which has
-already been uploaded to YouTube) to generate a low-fidelity version of the
-video. It returns the location of the low-fidelity preview video to the
-client-side code, which then displays the preview video to the user. This
-flow is illustrated in the swimlane activity diagram in
-\ref{fig:swimlane}.
+When a user modifies a video with the tool, the client-side code generates
+a computer-readable description of the changes made to the video called an
+edit list. The client-side code then sends the edit list to the preview
+server. The preview server uses the edit list and the user's original
+video (which has already been uploaded to YouTube) to generate a
+low-fidelity version of the video. It returns the location of the
+low-fidelity preview video to the client-side code, which then displays
+the preview video to the user. This flow is illustrated in the swimlane
+activity diagram in figure~\ref{fig:swimlane}.
 
 \begin{figure}
   \centering
@@ -213,7 +218,7 @@ flow is illustrated in the swimlane activity diagram in
   \label{fig:swimlane}
 \end{figure}
 
-\ref{fig:editlist}
+A sample edit list is shown in figure~\ref{fig:editlist}.
 
 \begin{figure}
   \centering
@@ -223,23 +228,23 @@ flow is illustrated in the swimlane activity diagram in
 \end{figure}
 
 \section{Problem Statement}\label{sec:problem}
-A large number of UI events may be generated when the user positions or trims an
-audio clip on the enhance page. When a large number of events occur, the user
-experiences a large delay before seeing a preview that corresponds with their
-most recent change.
+A large number of UI events may be generated when the user positions or
+trims an audio clip on the enhance page. When a large number of events
+occur, the user experiences a large delay before seeing a preview that
+corresponds with their most recent change.
 
-In order to protect proprietary design decisions, it is assumed that a user
-interaction generates 150 events over five seconds at a constant rate of 30
-events per second. It is also assumed that requests will be processed one at a
-time.\footnote{According to \cite{ref:http}, HTTP user agents should limit
-themselves to two concurrent requests. It can be seen in \cite{ref:b423377} that
-many browsers use more (say, four or six). However, this is omitted from the
-simulations for simplicity.} Finally, it is assumed that a server response will
-take 600 ms.\footnote{The calculation to determine this figure is noted in
-\ref{app:calculating}.}
+In order to protect proprietary design decisions, it is assumed that a
+user interaction generates 150 events over five seconds at a constant rate
+of 30 events per second. It is also assumed that requests will be
+processed one at a time.\footnote{According to \cite{ref:http}, HTTP user
+agents should limit themselves to two concurrent requests. It can be seen
+in \cite{ref:b423377} that many browsers use more (say, four or six).
+However, this is omitted from the simulations for simplicity.} Finally, it
+is assumed that a server response will take 600 ms.\footnote{The
+calculation to determine this figure is noted in \ref{app:calculating}.}
 
-A simulation of the request queue length for the first 100 seconds after the
-start of the interaction is shown in \ref{fig:sim-orig}.
+A simulation of the request queue length for the first 100 seconds after
+the start of the interaction is shown in figure~\ref{fig:sim-orig}.
 
 \begin{figure}
   \centering
@@ -252,20 +257,21 @@ start of the interaction is shown in \ref{fig:sim-orig}.
 \section{Analysis}
 
 First, the multi-criteria decision making (MCDM) methodology (see
-\ref{tbl:mcdm}) is used to evaluate a few possible solutions. Higher scores are
-better. Possible solutions were generated through brainstorming.  The
-methodology used to select the criteria and weights is outside of the scope of
-this report.
+\ref{tbl:mcdm}) is used to evaluate a few possible solutions. Higher
+scores are better. Possible solutions were generated through
+brainstorming.  The methodology used to select the criteria and weights is
+outside of the scope of this report.
 % FIXME No they're not, apparently!
 
 The results of \ref{tbl:mcdm} indicate that sending one edit list to the
-preview server every $\Delta t$ is the best solution. A number of simulations was
-performed to determine the best value of $\Delta t$. A sample of these
-simulations is shown below in \ref{fig:sim-300ms}, \ref{fig:sim-600ms}, and \ref{fig:sim-1000ms}. Of the simulations performed, the value
-$\Delta t=600 ms$ provided the most frequent preview updates to the user while
-maintaining a bounded request queue size, and thus it is recommended that the
-implementation be changed to send an edit list to the preview server every 600
-ms.
+preview server every $\Delta t$ is the best solution. A number of
+simulations was performed to determine the best value of $\Delta t$. A
+sample of these simulations is shown below in figure~\ref{fig:sim-300ms},
+figure~\ref{fig:sim-600ms}, and figure~\ref{fig:sim-1000ms}. Of the
+simulations performed, the value $\Delta t=600 ms$ provided the most
+frequent preview updates to the user while maintaining a bounded request
+queue size, and thus it is recommended that the implementation be changed
+to send an edit list to the preview server every 600 ms.
 
 % Here is a table.  You MUST cite the table in the text before it appears
 % in the document.
@@ -335,18 +341,18 @@ ms.
 
 % You must have a Conclusions section
 \section{Conclusions}
-It is proposed that the edit lists be sent to the preview server at most once
-every 600 ms. This provides a bound on the size of the number of requests in the
-queue. (Only one request will be processing at any given time.) This gives us a
-bound on the time between a given user interaction and when the preview is
-displayed to the user. This also reduces the total number of preview requests
-sent to the preview server, which results in a corresponding reduction in CPU
-and bandwidth usage on the server.
+It is proposed that the edit lists be sent to the preview server at most
+once every 600 ms. This provides a bound on the size of the number of
+requests in the queue. (Only one request will be processing at any given
+time.) This gives us a bound on the time between a given user interaction
+and when the preview is displayed to the user. This also reduces the total
+number of preview requests sent to the preview server, which results in a
+corresponding reduction in CPU and bandwidth usage on the server.
 
 % You must have a Recommendations section
 \section{Recommendations}
-Sending edit lists to the preview server should be rate-limited to at most once
-every 600 ms.
+Sending edit lists to the preview server should be rate-limited to at most
+once every 600 ms.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% BACK MATTER
@@ -367,16 +373,6 @@ every 600 ms.
 % layout for the references.  After this, you run LaTeX once more.
 \printbibliography[heading=bibintoc]
 
-\section{Acknowledgements}
-% This section shall acknowledge the people who helped with the writing 
-% of the work report. This would include anyone who was interviewed, 
-% anyone who proofread the report, or anyone whose files were used in 
-% the writing of the report.
-I would like to thank J. Doe for proofreading this report.
-
-I used the \textsf{uw-wkrpt} document class written by Simon Law to 
-typeset it.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% APPENDICES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -387,12 +383,12 @@ typeset it.
 \begin{appendices}
 
 \section{Calculating Simulated Server Response Time}\label{app:calculating}
-The simulated server response time is comprised by summing multiple factors, as
-noted below.
+The simulated server response time is comprised by summing multiple
+factors, as noted below.
 
 \subsection{Round Trip Time}
-Round-trip travel times between three locations in North America and youtube.com
-were sampled.
+Round-trip travel times between three locations in North America and
+youtube.com were sampled.
 
 \begin{table}
   \caption{Round Trip Time.}
@@ -427,28 +423,30 @@ were sampled.
 \end{table}
 
 \subsection{Encoding Time}
-To protect proprietary design decisions, assume it takes 2000 ms to encode 1000
-s (~= 16 minutes) of audio. (Video encoding time is ignored; since the control
-only alters the audio track, we assume that existing video encodes can be reused
-and multiplexed into the result upon being sent to the client.) We take the
-average of the durations of top featured tracks in the audio enhancement page to
-get an approximate audio duration of 4 minutes, 53.125 seconds. Based on our
-assumption, this would take 587 ms to encode.
+To protect proprietary design decisions, assume it takes 2000 ms to encode
+1000 s (~= 16 minutes) of audio. (Video encoding time is ignored; since
+the control only alters the audio track, we assume that existing video
+encodes can be reused and multiplexed into the result upon being sent to
+the client.) We take the average of the durations of top featured tracks
+in the audio enhancement page to get an approximate audio duration of 4
+minutes, 53.125 seconds. Based on our assumption, this would take 587 ms
+to encode.
 
 \subsection{Wi-Fi}
-The use of a wireless network standard such as 802.11n may introduce additional
-latency in the HTTP request. The amount of this latency varies depending on many
-factors, and could be the subject of its own report. It is assumed that the user
-is using a wired connection for the purposes of this report. It should be noted
-that the final implementation may need further adjustment to compensate for the
-extra latency that users of these networks will encounter.
+The use of a wireless network standard such as 802.11n may introduce
+additional latency in the HTTP request. The amount of this latency varies
+depending on many factors, and could be the subject of its own report. It
+is assumed that the user is using a wired connection for the purposes of
+this report. It should be noted that the final implementation may need
+further adjustment to compensate for the extra latency that users of these
+networks will encounter.
 
 \subsection{Other Factors}
-It is assumed that other tasks like multiplexing the audio and video streams on
-the preview server, and server-side parsing of the edit list are almost
-negligible. The duration of these tasks should be dwarfed by the time taken to
-encode the audio on the preview server. We add 8 ms of latency to account for
-these other factors.
+It is assumed that other tasks like multiplexing the audio and video
+streams on the preview server, and server-side parsing of the edit list
+are almost negligible. The duration of these tasks should be dwarfed by
+the time taken to encode the audio on the preview server. We add 8 ms of
+latency to account for these other factors.
 
 \end{appendices}
 \end{document}
