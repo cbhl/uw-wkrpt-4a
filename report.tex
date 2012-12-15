@@ -190,14 +190,23 @@ to future software projects.
 
 % You must have an Introduction
 \section{Introduction}\label{sec:intro}
-YouTube provides a web-based tool that allows users to perform minor
-enhancements to their videos without installing additional software on
+YouTube provides web-based tools that allows content creators to
+enhancement and edit their videos without installing additional software on
 their computer.
 
-The enhancement tool is comprised of two parts: client-side code and
-preview servers. The client-side code is primarily written in JavaScript,
-and runs in users' web browsers. The preview servers run on proprietary
-Google infrastructure.
+The enhancement tools are generally built on a client-server architecture,
+with client-side JavaScript code loaded from the front-end server by the
+web-browser. The main components are the front-end server, the render
+server, and the database.\footnote{To protect proprietary design decisions,
+portions of the server-side architecture have been simplified and omitted.}
+This split is illustrated in figure~\ref{fig:network-diagram}.
+
+\begin{figure}
+  \centering
+  \includegraphics{network-diagram}
+  \caption{Network Diagram.}
+  \label{fig:network-diagram}
+\end{figure}
 
 When a user modifies a video with the tool, the client-side code generates
 a computer-readable description of the changes made to the video called an
@@ -209,14 +218,9 @@ low-fidelity preview video to the client-side code, which then displays
 the preview video to the user. This flow is illustrated in the swimlane
 activity diagram in figure~\ref{fig:swimlane}.
 
-\begin{figure}
-  \centering
-  \includegraphics{swimlane}
-  \caption{Positionable/Trimmable Audio - Swimlane Activity Diagram.}
-  \label{fig:swimlane}
-\end{figure}
-
-A sample edit list is shown in figure~\ref{fig:editlist}.
+The client-side code and front-end server communicate by serializing the
+changes made to the video into an edit list, using the JSON format. A
+sample edit list is shown in figure~\ref{fig:editlist}.
 
 \begin{figure}
   \centering
@@ -225,6 +229,7 @@ A sample edit list is shown in figure~\ref{fig:editlist}.
   \label{fig:editlist}
 \end{figure}
 
+\subsection{Positionable/Trimmable Audio}\label{sec:ptaudio}
 figure~\ref{fig:overview}
 figure~\ref{fig:position-drag-start}
 figure~\ref{fig:position-drag-end}
@@ -240,25 +245,33 @@ figure~\ref{fig:trim}
 \begin{figure}
   \centering
   \includegraphics[width=6.25in]{position-drag-start}
-  \caption{Positionable/Trimmable Audio - Positioning Audio (Fig 1 of 2).}
+  \caption{Positioning Audio (Fig 1 of 2).}
   \label{fig:position-drag-start}
 \end{figure}
 
 \begin{figure}
   \centering
   \includegraphics[width=6.25in]{position-drag-end}
-  \caption{Positionable/Trimmable Audio - Positioning Audio (Fig 2 of 2).}
+  \caption{Positioning Audio (Fig 2 of 2).}
   \label{fig:position-drag-end}
 \end{figure}
 
 \begin{figure}
   \centering
   \includegraphics[width=6.25in]{trim}
-  \caption{Positionable/Trimmable Audio - Trimming Audio.}
+  \caption{Trimming Audio.}
   \label{fig:trim}
 \end{figure}
 
-\section{Problem Statement}\label{sec:problem}
+\begin{figure}
+  \centering
+  \includegraphics{swimlane}
+  \caption{Swimlane Activity Diagram.}
+  \label{fig:swimlane}
+\end{figure}
+
+
+\subsection{Problem Statement}\label{sec:problem}
 A large number of UI events may be generated when the user positions or
 trims an audio clip on the enhance page. When a large number of events
 occur, the user experiences a large delay before seeing a preview that
