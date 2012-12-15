@@ -190,13 +190,13 @@ to future software projects.
 
 % You must have an Introduction
 \section{Introduction}\label{sec:intro}
-YouTube provides web-based tools that allows content creators to
-enhancement and edit their videos without installing additional software on
-their computer. One of these enhancement tools is AudioSwap, a tool which
-allows content creators to select a song that YouTube has
-licensed,\footnote{YouTube places advertisements on the video, and uses the
-revenues to reimburse the creator of the audio track that the user
-selects.} and use it to repluce the audio in their video.
+YouTube provides web-based tools that allows content creators to enhance and
+edit their videos without installing additional software on their computer. One
+of these enhancement tools is AudioSwap, a tool which allows content creators
+to select a song that YouTube has licensed,\footnote{YouTube places
+advertisements on the video, and uses the revenues to reimburse the creator of
+the audio track that the user selects.} and use it to repluce the audio in
+their video.
 
 The enhancement tools are generally built on a client-server architecture,
 with client-side JavaScript code loaded from the front-end server by the
@@ -296,13 +296,13 @@ diagram in figure~\ref{fig:swimlane}.
 \end{figure}
 
 A large number of UI events may be generated when the user positions or
-trims an audio clip on the enhance page. An edit list is generated for each
-UI event, with a round-trip to the server and back to process each event.
-This worked fine in development, when each round-trip was virtually
+trims an audio clip on the video enhancements page. An edit list is generated
+for each UI event, with a round-trip to the server and back to process each
+event.  This worked fine in development, when each round-trip was virtually
 instantaneous. However, this round-trip is estimated to take 600ms for a
-typical content creator.\footnote{The calculation to determine this figure
-is detailed in appendix~\ref{app:calculating}.}. When a large number of
-events occur, the user experiences a large delay before seeing a preview.
+typical content creator.\footnote{The calculation to determine this figure is
+detailed in appendix~\ref{app:calculating}.}. When a large number of events
+occur, the user experiences a large delay before seeing a preview.
 
 This report seeks to select an appropate mitigation strategy for the delay
 in the user interface for positionable/trimmable audio.
