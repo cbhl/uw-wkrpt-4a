@@ -3,7 +3,8 @@
 
 # Ignore generated files
 report.drv
-report*.pdf
+report.pdf
+changes.pdf
 *.fls
 
 # Ignore biber files
