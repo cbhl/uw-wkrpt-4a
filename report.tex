@@ -309,7 +309,16 @@ in the user interface for positionable/trimmable audio.
 
 % You must have either an Analysis or a Synthesis section.
 \section{Analysis}
+First, a simulation is run to further understand the problem. Then, we
+develop criteria and outline various possible mitigation strategies. We use
+the weighted sum model,\footnote{This method is covered in MSCI 261, a core
+course in the software engineering curriculum at the University of
+Waterloo. If you need a refresher, you can read about it on Wikipedia at
+\url{http://en.wikipedia.org/wiki/Weighted_sum_model}.} a method of
+multi-criteria decision making, to select an alternative. Then, we run
+further simulations to tweak the parameters of the chosen alternative.
 
+\subsection{Initial Simulation and Assumptions}
 In order to protect proprietary design decisions, it is assumed that a
 user interaction generates 150 events over five seconds at a constant rate
 of 30 events per second. It is also assumed that requests will be
@@ -319,7 +328,9 @@ in \cite{ref:b423377} that many browsers use more (say, four or six).
 However, this is omitted from the simulations for simplicity.}
 
 A simulation of the request queue length for the first 100 seconds after
-the start of the interaction is shown in figure~\ref{fig:sim-orig}.
+the start of the interaction is shown in figure~\ref{fig:sim-orig}. Note
+that the user does not see the preview until the request queue length drops
+to zero, almost 90 seconds after they've stopped adjusting the control.
 
 \begin{figure}
   \centering
@@ -327,22 +338,61 @@ the start of the interaction is shown in figure~\ref{fig:sim-orig}.
   \caption{Simulated Request Queue Length (Original Implementation).}
   \label{fig:sim-orig}
 \end{figure}
-First, the multi-criteria decision making (MCDM) methodology (see
-\ref{tbl:mcdm}) is used to evaluate a few possible solutions. Higher
-scores are better. Possible solutions were generated through
-brainstorming.  The methodology used to select the criteria and weights is
-outside of the scope of this report.
-% FIXME No they're not, apparently!
 
-The results of \ref{tbl:mcdm} indicate that sending one edit list to the
-preview server every $\Delta t$ is the best solution. A number of
-simulations was performed to determine the best value of $\Delta t$. A
-sample of these simulations is shown below in figure~\ref{fig:sim-300ms},
-figure~\ref{fig:sim-600ms}, and figure~\ref{fig:sim-1000ms}. Of the
-simulations performed, the value $\Delta t=600 ms$ provided the most
-frequent preview updates to the user while maintaining a bounded request
-queue size, and thus it is recommended that the implementation be changed
-to send an edit list to the preview server every 600 ms.
+\subsection {Criteria}
+Criteria were selected by the team lead, based on past experience and
+overall organization priorities.
+
+\subsubsection{Developer Effort}
+How much work would a developer need to do to complete this alternative?
+(Ranked from 1 (more than one quarter) to 5 (less than one week).)
+
+\subsubsection{PR Impact}
+Could we write about the alternative to generate additional interest in the
+video enhancement tools? Will pursing an alternative cause others to write
+negative articles about the video enhacement tools? (Ranked from 1
+(negative impact) to 5 (positive impact).)
+
+\subsubsection{External Dependencies}
+Does this alternative depend on deliverables from outside the team? How
+likely will those deliverables be ready in a timely manner? (Ranked from
+1(outside the company) to 5 (no external dependencies).)
+
+\subsubsection{User Impact}
+How do we think the user experience will be impacted by this alternative?
+(Ranked from 1 (negative impact) to 5 (positive impact).)
+
+\subsubsection{Interest}
+Is there someone on the team who is supportive of a particular approach and
+willing to do the work to get it done?
+(Ranked from 1 (no interest) to 5 (multiple supporters).)
+
+\subsection{Alternatives}
+Possible solutions were generated through brainstorming.
+
+\subsubsection{Client-side Audio Syncing}
+Synchronize audioswap track and original video playback on the client side,
+removing the need for a roundtrip to display the preview for audioswap.
+
+\subsubsection{Do Nothing}
+Prioritize other fixes / features instead.
+
+\subsubsection{Real-Time Streaming Preview (WebRTC)}
+Replace the video preview player with WebRTC so that we can stream the
+preview in real time.
+
+\subsubsection{Throttle Events}
+Don't send an edit list to the server for every event. Instead, send one
+every $\Delta t$ seconds, as well as one for the "last" event (mouse button up
+event).
+
+\subsubsection{Wait for Advances in Networking Technology}
+Limit the use of the application to users on super-high-speed network
+connections, like Google Fiber.
+
+\subsection{Phase 1: Multi-Criteria Decision Making}
+The results of table~\ref{tbl:mcdm} indicate that sending one edit list to
+the preview server every $\Delta t$ is the best solution.
 
 % Here is a table.  You MUST cite the table in the text before it appears
 % in the document.
@@ -389,6 +439,15 @@ to send an edit list to the preview server every 600 ms.
   \end{tabular}
 \end{table}
 
+\subsection{Phase 2: Simulation and Optimization}
+A number of
+simulations was performed to determine the best value of $\Delta t$. A
+sample of these simulations is shown below in figure~\ref{fig:sim-300ms},
+figure~\ref{fig:sim-600ms}, and figure~\ref{fig:sim-1000ms}. Of the
+simulations performed, the value $\Delta t=600 ms$ provided the most
+frequent preview updates to the user while maintaining a bounded request
+queue size, and thus it is recommended that the implementation be changed
+to send an edit list to the preview server every 600 ms.
 \begin{figure}
   \centering
   \includegraphics[width=6.25in]{sim-300ms}
