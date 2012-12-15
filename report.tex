@@ -192,13 +192,17 @@ to future software projects.
 \section{Introduction}\label{sec:intro}
 YouTube provides web-based tools that allows content creators to
 enhancement and edit their videos without installing additional software on
-their computer.
+their computer. One of these enhancement tools is AudioSwap, a tool which
+allows content creators to select a song that YouTube has
+licensed,\footnote{YouTube places advertisements on the video, and uses the
+revenues to reimburse the creator of the audio track that the user
+selects.} and use it to repluce the audio in their video.
 
 The enhancement tools are generally built on a client-server architecture,
 with client-side JavaScript code loaded from the front-end server by the
 web-browser. The main components are the front-end server, the render
 server, and the database.\footnote{To protect proprietary design decisions,
-portions of the server-side architecture have been simplified and omitted.}
+the server-side architecture has been simplified.}
 This split is illustrated in figure~\ref{fig:network-diagram}.
 
 \begin{figure}
@@ -215,8 +219,7 @@ server. The preview server uses the edit list and the user's original
 video (which has already been uploaded to YouTube) to generate a
 low-fidelity version of the video. It returns the location of the
 low-fidelity preview video to the client-side code, which then displays
-the preview video to the user. This flow is illustrated in the swimlane
-activity diagram in figure~\ref{fig:swimlane}.
+the preview video to the user.
 
 The client-side code and front-end server communicate by serializing the
 changes made to the video into an edit list, using the JSON format. A
@@ -230,10 +233,13 @@ sample edit list is shown in figure~\ref{fig:editlist}.
 \end{figure}
 
 \subsection{Positionable/Trimmable Audio}\label{sec:ptaudio}
-figure~\ref{fig:overview}
-figure~\ref{fig:position-drag-start}
-figure~\ref{fig:position-drag-end}
-figure~\ref{fig:trim}
+Positionable/Trimmable Audio is a new feature for the AudioSwap tool on
+YouTube. It allows the user to position and trim audio tracks on their
+video. For example, right before the proposal in a marriage proposal video,
+a content creator might choose to overlay the chorus of a romantic song,
+trimming the audio so that the proposal can be heard when it is made. The
+user interface for positioning and trimming audio is shown in
+figure~\ref{fig:overview}.
 
 \begin{figure}
   \centering
@@ -241,6 +247,11 @@ figure~\ref{fig:trim}
   \caption{Positionable/Trimmable Audio - User Interface.}
   \label{fig:overview}
 \end{figure}
+
+The user can click and drag an audio track, as shown in
+figure~\ref{fig:position-drag-start} and
+figure~\ref{fig:position-drag-end}. They can also drag the trimming handles
+to trim the song, as shown in figure~\ref{fig:trim}.
 
 \begin{figure}
   \centering
@@ -263,6 +274,20 @@ figure~\ref{fig:trim}
   \label{fig:trim}
 \end{figure}
 
+
+\subsection{Problem Statement}\label{sec:problem}
+When Positionable/Trimmable Audio was first released to content creators,
+some content creators noticed a delay between releasing the mouse when
+positioning or trimming an audio track and when the preview video would
+start playing.
+
+Whenever the user positions or trims an audio track, the edits are
+serialized in an edit list and sent to the front-end server. The front-end
+server sends a message to tell the render server to render a low-quality
+preview of the video, before returning the location of the preview video to
+the front-end code. This flow is illustrated in the swimlane activity
+diagram in figure~\ref{fig:swimlane}.
+
 \begin{figure}
   \centering
   \includegraphics{swimlane}
@@ -270,12 +295,20 @@ figure~\ref{fig:trim}
   \label{fig:swimlane}
 \end{figure}
 
-
-\subsection{Problem Statement}\label{sec:problem}
 A large number of UI events may be generated when the user positions or
-trims an audio clip on the enhance page. When a large number of events
-occur, the user experiences a large delay before seeing a preview that
-corresponds with their most recent change.
+trims an audio clip on the enhance page. An edit list is generated for each
+UI event, with a round-trip to the server and back to process each event.
+This worked fine in development, when each round-trip was virtually
+instantaneous. However, this round-trip is estimated to take 600ms for a
+typical content creator.\footnote{The calculation to determine this figure
+is detailed in appendix~\ref{app:calculating}.}. When a large number of
+events occur, the user experiences a large delay before seeing a preview.
+
+This report seeks to select an appropate mitigation strategy for the delay
+in the user interface for positionable/trimmable audio.
+
+% You must have either an Analysis or a Synthesis section.
+\section{Analysis}
 
 In order to protect proprietary design decisions, it is assumed that a
 user interaction generates 150 events over five seconds at a constant rate
@@ -283,9 +316,7 @@ of 30 events per second. It is also assumed that requests will be
 processed one at a time.\footnote{According to \cite{ref:http}, HTTP user
 agents should limit themselves to two concurrent requests. It can be seen
 in \cite{ref:b423377} that many browsers use more (say, four or six).
-However, this is omitted from the simulations for simplicity.} Finally, it
-is assumed that a server response will take 600 ms.\footnote{The
-calculation to determine this figure is noted in \ref{app:calculating}.}
+However, this is omitted from the simulations for simplicity.}
 
 A simulation of the request queue length for the first 100 seconds after
 the start of the interaction is shown in figure~\ref{fig:sim-orig}.
@@ -296,10 +327,6 @@ the start of the interaction is shown in figure~\ref{fig:sim-orig}.
   \caption{Simulated Request Queue Length (Original Implementation).}
   \label{fig:sim-orig}
 \end{figure}
-
-% You must have either an Analysis or a Synthesis section.
-\section{Analysis}
-
 First, the multi-criteria decision making (MCDM) methodology (see
 \ref{tbl:mcdm}) is used to evaluate a few possible solutions. Higher
 scores are better. Possible solutions were generated through
