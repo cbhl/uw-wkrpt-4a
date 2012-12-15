@@ -233,7 +233,7 @@ sample edit list is shown in figure~\ref{fig:editlist}.
 \end{figure}
 
 \subsection{Positionable/Trimmable Audio}\label{sec:ptaudio}
-Positionable/Trimmable Audio is a new feature for the AudioSwap tool on
+Positionable/trimmable Audio is a new feature for the AudioSwap tool on
 YouTube. It allows the user to position and trim audio tracks on their
 video. For example, right before the proposal in a marriage proposal video,
 a content creator might choose to overlay the chorus of a romantic song,
@@ -276,7 +276,7 @@ to trim the song, as shown in figure~\ref{fig:trim}.
 
 
 \subsection{Problem Statement}\label{sec:problem}
-When Positionable/Trimmable Audio was first released to content creators,
+When positionable/trimmable audio was first released to content creators,
 some content creators noticed a delay between releasing the mouse when
 positioning or trimming an audio track and when the preview video would
 start playing.
@@ -318,7 +318,7 @@ Waterloo. If you need a refresher, you can read about it on Wikipedia at
 multi-criteria decision making, to select an alternative. Then, we run
 further simulations to tweak the parameters of the chosen alternative.
 
-\subsection{Initial Simulation and Assumptions}
+\subsection{Initial Simulation and Assumptions}\label{sec:assumptions}
 In order to protect proprietary design decisions, it is assumed that a
 user interaction generates 150 events over five seconds at a constant rate
 of 30 events per second. It is also assumed that requests will be
@@ -356,7 +356,7 @@ negative articles about the video enhacement tools? (Ranked from 1
 \subsubsection{External Dependencies}
 Does this alternative depend on deliverables from outside the team? How
 likely will those deliverables be ready in a timely manner? (Ranked from
-1(outside the company) to 5 (no external dependencies).)
+1 (dependencies outside Google) to 5 (no external dependencies).)
 
 \subsubsection{User Impact}
 How do we think the user experience will be impacted by this alternative?
@@ -391,8 +391,13 @@ Limit the use of the application to users on super-high-speed network
 connections, like Google Fiber.
 
 \subsection{Phase 1: Multi-Criteria Decision Making}
-The results of table~\ref{tbl:mcdm} indicate that sending one edit list to
-the preview server every $\Delta t$ is the best solution.
+The results of table~\ref{tbl:mcdm} indicate that event throttling is the
+best solution. We note that the the solution chosen isn't very robust if
+the criteria weights are changed -- in fact, it is possible to make
+virtually every solution an "optimal" solution by changing the weights.
+However, we proceed with the weights chosen by the team lead, noting that
+we should re-evaluate the criteria weights if we need to make a similar
+decision in the future.
 
 % Here is a table.  You MUST cite the table in the text before it appears
 % in the document.
@@ -400,54 +405,55 @@ the preview server every $\Delta t$ is the best solution.
   \caption{Multi-Criteria Decision Making Results.}
   \label{tbl:mcdm}
   \centering
-  \begin{tabular}{|p{2.0cm}|p{1.0cm}|p{1.25cm}|p{1.25cm}|p{1.25cm}|p{1.25cm}|
-                                     p{1.25cm}|p{1.25cm}|p{1.25cm}|p{1.25cm}|}
+  \begin{tabular}{|p{3.0cm}|p{0.75cm}|
+                   p{0.75cm}|p{0.75cm}|p{0.75cm}|p{0.75cm}|p{0.75cm}|
+                   p{0.75cm}|p{0.75cm}|p{0.75cm}|p{0.75cm}|p{0.75cm}|}
     \hline
     \textbf{Criteria} &
     \textbf{Wt.} &
-    \multicolumn{2}{|p{2.5cm}|}{\textbf{Send only the last edit list to preview
-    server.}} &
-    \multicolumn{2}{|p{2.5cm}|}{\textbf{Send one edit list to the preview
-    server every $\Delta t$.}} &
-    \multicolumn{2}{|p{2.5cm}|}{\textbf{Increase number of concurrent
-    connections.}} &
-    \multicolumn{2}{|p{2.5cm}|}{\textbf{Do nothing.}} \\
-    \hline\hline
-    Minimizes Time to Receipt of Last Response &
-       4 &  4 & 16 &  3 & 12 &  2 &  8 &  1 &  4 \\
+    \multicolumn{2}{|p{1.50cm}|}{\textbf{Client}} &
+    \multicolumn{2}{|p{1.50cm}|}{\textbf{Nothing}} &
+    \multicolumn{2}{|p{1.50cm}|}{\textbf{WebRTC}} &
+    \multicolumn{2}{|p{1.50cm}|}{\textbf{Throttle}} &
+    \multicolumn{2}{|p{1.50cm}|}{\textbf{Wait}} \\
     \hline
-    Minimizes Server Resources Used &
-       2 &  4 &  8 &  3 &  6 &  1 &  2 &  1 &  2 \\
     \hline
-    Displays Feedback to User During Interaction &
-       3 &  1 &  3 &  4 & 12 &  3 &  9 &  2 &  6 \\
+    Developer Effort &
+       2 &  2 &  4 &  5 & 10 &  1 &  2 &  4 &  8 &  5 & 10 \\
     \hline
-    Does Not Require Client Configuration &
-       5 &  4 & 20 &  4 & 20 &  1 &  5 &  4 & 20 \\
+    PR Impact &
+       2 &  3 &  6 &  2 &  4 &  5 & 10 &  3 &  6 &  1 &  2 \\
     \hline
-    Minimizes Developer Effort &
-       1 &  2 &  2 &  2 &  2 &  3 &  3 &  4 &  4 \\
+    External Dependencies &
+       3 &  2 &  6 &  5 & 15 &  1 &  3 &  5 & 15 &  1 &  3 \\
+    \hline
+    User Impact &
+       2 &  2 &  4 &  3 &  6 &  5 & 10 &  4 &  8 &  1 &  2 \\
+    \hline
+    Interest &
+       1 &  5 &  5 &  1 &  1 &  3 &  3 &  5 &  5 &  1 &  1 \\
     \hline
     \hline
     \textbf{Total} &
       &
-      \multicolumn{2}{|r|}{\textbf{49}} &
-      \multicolumn{2}{|r|}{\textbf{52}} &
-      \multicolumn{2}{|r|}{\textbf{27}} &
-      \multicolumn{2}{|r|}{\textbf{36}} \\
+      \multicolumn{2}{|r|}{\textbf{25}} &
+      \multicolumn{2}{|r|}{\textbf{36}} &
+      \multicolumn{2}{|r|}{\textbf{28}} &
+      \multicolumn{2}{|r|}{\textbf{42}} &
+      \multicolumn{2}{|r|}{\textbf{18}} \\
     \hline
   \end{tabular}
 \end{table}
 
 \subsection{Phase 2: Simulation and Optimization}
-A number of
-simulations was performed to determine the best value of $\Delta t$. A
+A number of simulations was performed to determine the best value of
+$\Delta t$, the duration between edit lists being sent to the server. A
 sample of these simulations is shown below in figure~\ref{fig:sim-300ms},
 figure~\ref{fig:sim-600ms}, and figure~\ref{fig:sim-1000ms}. Of the
 simulations performed, the value $\Delta t=600 ms$ provided the most
 frequent preview updates to the user while maintaining a bounded request
-queue size, and thus it is recommended that the implementation be changed
-to send an edit list to the preview server every 600 ms.
+queue size.
+
 \begin{figure}
   \centering
   \includegraphics[width=6.25in]{sim-300ms}
@@ -471,18 +477,26 @@ to send an edit list to the preview server every 600 ms.
 
 % You must have a Conclusions section
 \section{Conclusions}
-It is proposed that the edit lists be sent to the preview server at most
-once every 600 ms. This provides a bound on the size of the number of
-requests in the queue. (Only one request will be processing at any given
-time.) This gives us a bound on the time between a given user interaction
-and when the preview is displayed to the user. This also reduces the total
-number of preview requests sent to the preview server, which results in a
-corresponding reduction in CPU and bandwidth usage on the server.
+The simulation suggests that edit lists should be sent to the front-end
+server at most once every 600ms. We note that this value corresponds to the
+round-trip time we determined in \S\ref{sec:assumptions}, so we recommend
+that an edit list be generated only after the previous one has completed
+its round trip,\footnote{With a timeout, of course, and re-transmission
+with exponential back-off in the event of packet loss / transient network
+failure, etc...} and that UI events only update the UI in the interim.
+
+This provides a bound on the size of the number of requests in the queue.
+(Only one request will be processing at any given time.) This, in turn,
+gives us a bound on the time between a given user interaction and when the
+preview is displayed to the user. (This also reduces the total number of
+preview requests sent to the preview server, which results in a
+corresponding reduction in CPU and bandwidth usage on the render server.)
 
 % You must have a Recommendations section
 \section{Recommendations}
-Sending edit lists to the preview server should be rate-limited to at most
-once every 600 ms.
+Modify the client-side code so that UI events update the UI immediately,
+but only trigger a network round-trip if an edit list is not already in
+flight.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% BACK MATTER
