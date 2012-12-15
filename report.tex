@@ -494,9 +494,16 @@ corresponding reduction in CPU and bandwidth usage on the render server.)
 
 % You must have a Recommendations section
 \section{Recommendations}
-Modify the client-side code so that UI events update the UI immediately,
-but only trigger a network round-trip if an edit list is not already in
-flight.
+We recommend that the client-side code be modified so that UI events update
+the UI immediately, but only trigger a network round-trip if an edit list
+is not already in flight.
+
+We note that this recommendation does not necessarily preclude the pursuit
+of the other alternatives. Instead, the above alternative should be pursued
+first, since it provides the best overall trade-off given the criteria.
+Pursuit of the remaining alternative solutions should then be prioritized
+within the overall context of the team's objectives and key results (OKRs)
+for the quarter.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% BACK MATTER
