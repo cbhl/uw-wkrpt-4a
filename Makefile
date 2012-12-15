@@ -7,7 +7,12 @@
 #   - latexmk.pl and uw-wkrpt.cls are in the working directory, instead of
 #     being installed to the system
 
-.PHONY: all clean clean-all
+.PHONY: all-all changes all clean clean-all
+
+all-all: changes all
+
+changes: changes.tex uw-wkrpt.cls
+	latexmk -pdf $<
 
 all: report.tex report.bib uw-wkrpt.cls
 	latexmk -bibtex -pdf $<

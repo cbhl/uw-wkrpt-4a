@@ -1,0 +1,98 @@
+% changes.tex
+% Copyright (C) 2012  Michael Chang
+% based on
+% uw-wkrpt-se.tex - An example work report that uses uw-wkrpt.cls
+% Copyright (C) 2002,2003  Simon Law
+% 
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 2 of the License, or
+% (at your option) any later version.
+% 
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+% 
+% You should have received a copy of the GNU General Public License
+% along with this program; if not, write to the Free Software
+% Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% We begin by calling the workreport class which includes all the
+% definitions for the macros we will use.
+\documentclass[se,resubmit]{uw-wkrpt}
+
+% LaTeX preamble: load some packages to add functionality
+\usepackage{graphicx} % Include graphic importing
+
+\usepackage[T1]{fontenc} % Better fonts
+\usepackage{ae,aecompl}
+
+\usepackage{indentfirst} % Indent first paragraph of each section
+
+% For mathematical symbols in our pseudocode
+\usepackage{amsmath}
+
+% Use the algorithmicx package for pseudocode
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usepackage{listings}
+
+% This needs to be the last package loaded
+\usepackage[pdftex]{hyperref} % Generate PDF links and bookmarks.
+\hypersetup{
+  bookmarks=true,
+  bookmarksnumbered=true
+}
+
+% Now we will begin writing the document.
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% List of Changes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% \main will make the \section commands numbered again,
+%% it will also use arabic page numbers.
+\mainmatter
+
+% You must have an Introduction
+\section{List of Changes}\label{sec:changes}
+
+\begin{itemize}
+  \item Use \LaTeX (instead of Microsoft Word) to typeset the report, using
+	the \texttt{uw-wkrpt.cls} class by Simon Law, et. al. (The class
+	was modified to note that the report is a resubmission in the
+	letter of submittal; changes can be found at
+	\url{https://github.com/cbhl/uw-wkrpt-resubmit}.) This should
+	resolve most of the issues in "general formatting".
+  \item Change the title to be more descriptive.
+  \item Fix the name and location of the employer on the cover page.
+        (YouTube, LLC is owned by Google Inc.)
+  \item Update the report date.
+  \item Make the letter of submittal more like the sample letter.
+  \item Insert an Executive Summary before the ToC.
+  \item Merge 'Background' and 'Problem' to two subsections of a section
+        called 'Introduction'.
+  \item Replace 'Justification' with an 'Analysis' section, detailing
+        criteria and alternatives, placing it before the recommendation.
+  \item Insert a 'Conclusion' section after the new 'Analysis' section and
+        before the 'Recommendations' section.
+  \item Replace figure 'Preview Request Flow' with 'Swimlane Activity
+        Diagram'.
+  \item New figure: 'Network Diagram' to show domain and environment.
+  \item New figure: 'Sample Edit List' to provide context.
+  \item New figures: 'Positionable/Trimmable Audio - User Interface',
+        'Positioning Audio', 'Trimming Audio' to provide context.
+  \item Add a label to the table in Appendix A.
+  \item Provide more context in the problem statement.
+  \item Look at more plausible alternatives than the ones considered in the
+        original report.
+  \item Infer a recommendation based on the assumptions and the results of
+        the analysis (as opposed to just making a straightforward, but
+	possibly inaccurate recommendation).
+\end{itemize}
+
+\end{document}
