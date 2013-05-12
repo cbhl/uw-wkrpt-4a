@@ -307,10 +307,13 @@ Engine SDK \cite{ref:gaecs}. Images can be served directly using the App Engine
 Images API cite{ref:gaeimage}.
 
 \subsubsection{Imgur}
-Provided by Imgur.
+This service is provided by Imgur. Commercial API access is provided through 
+Mashape.
 
 \subsubsection{Dropbox}
-Provided by Dropbox.
+This service is provided by Dropbox. Users can generate URLs for files using 
+online, mobile, and desktop clients. Pricing is per-user, and tiered based on 
+the amount of space used.
 
 \subsection{Multi-Criteria Decision-Making}
 We note that the MCDM usually isn't very robust if the criteria weights are 
@@ -377,9 +380,6 @@ As shown in table~\ref{tbl:mcdm}, Amazon's S3 best meets the criteria outlined.
 \section{Recommendations}
 We recommend that Khan Academy create an S3 bucket to store images for static 
 questions using their existing Amazon Web Services account.
-
-In particular, we note the ability to create cacheable URLs for objects stored 
-on S3 by setting the "public-read" ACL on those objects.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% BACK MATTER
