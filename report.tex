@@ -1,5 +1,5 @@
-% Mitigating User Interface Latency Caused by Event Accumulation in an
-% Online Video Editor Built on a Client-Server Architecture
+% Evaluation of Programmatically-Accessible Hosting Services for Visual Aids
+% for an Online Learning Environment
 % Copyright (C) 2012  Michael Chang
 % based on
 % uw-wkrpt-se.tex - An example work report that uses uw-wkrpt.cls
@@ -23,7 +23,7 @@
 %
 % We begin by calling the workreport class which includes all the
 % definitions for the macros we will use.
-\documentclass[se,resubmit]{uw-wkrpt}
+\documentclass[se]{uw-wkrpt}
 
 % LaTeX preamble: load some packages to add functionality
 \usepackage{graphicx} % Include graphic importing
@@ -64,8 +64,8 @@
 
 %% First we, should create a title page.  This is done below:
 % Fill in the title of your report.
-\title{ Mitigating User Interface Latency Caused by Event Accumulation in an
-Online Video Editor Built on a Client-Server Architecture }
+\title{ Evaluation of Programmatically-Accessible Hosting Services for Visual 
+Aids for an Online Learning Environment }
 
 % Fill in your name.
 \author{Michael Chang}
@@ -81,7 +81,7 @@ Online Video Editor Built on a Client-Server Architecture }
          Richmond Hill, ON\ \ L4B 1A2}
 
 % Fill in your employer's name.
-\employer{Google Inc.}
+\employer{Khan Academy}
 
 % Fill in your employer's city and province.
 \employeraddress{Mountain View, CA}
@@ -99,7 +99,7 @@ Online Video Editor Built on a Client-Server Architecture }
 \email{m9chang@uwaterloo.ca}
 
 % Fill in your term.
-\term{3A}
+\term{3B}
 
 % Fill in your program.
 \program{Software Engineering}
@@ -117,7 +117,7 @@ Online Video Editor Built on a Client-Server Architecture }
 
 % If you want to specify the date, fill it in here.  If you comment out
 % this line, today's date will be substituted.
-\date{December 15, 2012}
+\date{May 11, 2012}
 
 % Now, we ask LaTeX to generate the title.
 \maketitle
@@ -131,22 +131,20 @@ Online Video Editor Built on a Client-Server Architecture }
 
 % After this, we must create a letter of submission.
 \begin{letter}
-I have completed my fourth work term, following my \theterm{} term. Please find
-enclosed my third work term report entitled: ``\thetitle'' for YouTube, LLC, a
-subsidiary of \theemployer.  My manager was B. Glickstein, and our team was
-primarily involved with building tools for video creators and content curators.
+I have completed my fifth work term, following my \theterm{} term. Please find
+enclosed my fourth work term report entitled: ``\thetitle'' for \theemployer, a 
+non-profit organization with the mission of providing "a free world-class 
+education for everyone everywhere". My manager was B. Eater, and our team was 
+primarily responsible with creating interactive content ("Exercises") on the 
+site.
 
-This report focuses on the handling of input events in the video
-enhancement tool on YouTube. This problem is similar to one that I
-encountered on my work term, but has been modified to protect proprietary
-design decisions.
+This report focuses on selecting a service for hosting images to be used in 
+exercises on Khan Academy. This problem is one that I encountered on my work 
+term.
 
-I wish to thank B. Glickstein and R. Doshi for their advice on the
-technical content of this report. I also wish to thank C. Kleynhans and M.
-Yee for their advice on choosing a word processing environment to write
-this report, and W. Chang for proofreading this report. Finally, I
-wish to thank A. Mortezaei for providing feedback on the initial
-submission of this report.
+I wish to thank B. Eater and B. Alpert for their advice on the technical 
+content of this report. I also wish to thank C. Kleynhans and M. Yee for 
+recommending the use of the uw-wkrpt \LaTeX class to format this report.
 
 % Note that I do not need to type out the boilerplate confirmation,
 % nor do I need to write a signature block.  This is generated for me.
@@ -155,19 +153,22 @@ submission of this report.
 
 % We continue with required sections, such as the Executive Summary.
 \section{Executive Summary}
-AudioSwap is one of the video enhancement features available to video
-creators on YouTube. It allows video creators to select a song from a
-library of over 100,000 songs that YouTube has licensed. The initial
-implemention of AudioSwap only allowed users to place the audio at the
-beginning of their video, and to use the song in its entirety. One of the
-major accomplishments of my work term was to implement user interface
-changes which allow video creators to position and trim tracks they've
-placed over their videos using AudioSwap.
+Khan Academy provides exercises to help learners practice and review concepts 
+that they've learned. Historically, these exercises have been built using the 
+BSD-licensed khan-exercises framework. It is difficult to find and retain 
+people to contribute exercises using the framework, as they both need to know 
+how to teach and how to program in JavaScript.
 
-This document describes issues which arose when these changes were first
-publicly deployed. It also describes some ways those issues could be
-mitigated, and uses the multi-criteria decision making methdology to rank
-these mitigation strategies.
+Khan Academy is developing new tools to allow teachers to contribute to 
+exercises without knowing how to program in JavaScript. These tools allow 
+teachers to build a large bank of questions, which can be bundled together into 
+an exercise. The initial implementation of the question editor only allowed 
+users to embed images by hotlinking them from somewhere else.
+
+This document describes the selection of a hosting service for the images that 
+are uploaded in the question editor. It describes the criteria by which the 
+services were evaluated, and uses the multi-criteria decision-making 
+methodology to rank the services.
 
 % Next, we need to make a Table of Contents, List of Figures and 
 % List of Tables.  You will most likely need to run LaTeX twice to
@@ -186,122 +187,51 @@ these mitigation strategies.
 
 % You must have an Introduction
 \section{Introduction}\label{sec:intro}
-YouTube provides web-based tools that allows content creators to enhance and
-edit their videos without installing additional software on their computer. One
-of these enhancement tools is AudioSwap, a tool which allows content creators
-to select a song that YouTube has licensed,\footnote{YouTube places
-advertisements on the video, and uses the revenues to reimburse the creator of
-the audio track that the user selects.} and use it to repluce the audio in
-their video.
+Khan Academy provides exercises to help learners practice and review concepts 
+that they've learned. Historically, these exercises have been built using the 
+BSD-licensed khan-exercises framework, with each problem being randomly 
+generated. This works well for exercises that focus on computation, such as 
+exercises for basic addition, vectors, and matrices. However, it is cumbersome 
+for word problems in math, and even more so for other subjects, such as 
+biology, chemistry, math, or history. Furthermore, people who wish to 
+contribute exercises must both be proficient in teaching and in programming in 
+JavaScript -- only a small fraction of contributions received meet both content 
+and technical standards to be incorporated into Khan Academy.
 
-The enhancement tools are generally built on a client-server architecture,
-with client-side JavaScript code loaded from the front-end server by the
-web-browser. The main components are the front-end server, the render
-server, and the database.\footnote{To protect proprietary design decisions,
-the server-side architecture has been simplified.}
-This split is illustrated in figure~\ref{fig:network-diagram}.
+\subsection{Static Questions}\label{sec:staticq}
+Khan Academy is developing new tools to allow teachers to contribute to 
+exercises without knowing how to program in JavaScript. These tools allow 
+teachers to build a large bank of questions, and bundle questions together into 
+exercises. These tools will enable more teachers to contribute content to Khan 
+Academy, which will help Khan Academy reach complete coverage of High School 
+mathematics sooner. These tools will also enable content creators to create 
+exercises in topics, such as World War I, that are unsuitable for the 
+programmatic creation of question content. This report focuses on one 
+particular component of this toolkit -- the question editor.
 
-\begin{figure}
-  \centering
-  \includegraphics{network-diagram}
-  \caption{Network Diagram.}
-  \label{fig:network-diagram}
-\end{figure}
-
-When a user modifies a video with the tool, the client-side code generates
-a computer-readable description of the changes made to the video called an
-edit list. The client-side code then sends the edit list to the preview
-server. The preview server uses the edit list and the user's original
-video (which has already been uploaded to YouTube) to generate a
-low-fidelity version of the video. It returns the location of the
-low-fidelity preview video to the client-side code, which then displays
-the preview video to the user.
-
-The client-side code and front-end server communicate by serializing the
-changes made to the video into an edit list, using the JSON format. A
-sample edit list is shown in figure~\ref{fig:editlist}.
+The question editor uses a combination of Markdown syntax for formatting, and 
+LaTeX syntax for mathematical formulas. The initial version of the question 
+editor allowed images to be inserted by using the syntax shown in 
+figure~\ref{fig:imgsyntax}. However, the syntax provided only allowed users to 
+embed images by hotlinking them from another server, such as Dropbox.
 
 \begin{figure}
   \centering
-  \lstinputlisting{editlist.json}
-  \caption{Sample Edit List.}
-  \label{fig:editlist}
-\end{figure}
-
-\subsection{Positionable/Trimmable Audio}\label{sec:ptaudio}
-Positionable/trimmable Audio is a new feature for the AudioSwap tool on
-YouTube. It allows the user to position and trim audio tracks on their
-video. For example, right before the proposal in a marriage proposal video,
-a content creator might choose to overlay the chorus of a romantic song,
-trimming the audio so that the proposal can be heard when it is made. The
-user interface for positioning and trimming audio is shown in
-figure~\ref{fig:overview}.
-
-\begin{figure}
-  \centering
-  \includegraphics[width=5.515in]{overview}
-  \caption{Positionable/Trimmable Audio - User Interface.}
-  \label{fig:overview}
-\end{figure}
-
-The user can click and drag an audio track, as shown in
-figure~\ref{fig:position-drag-start} and
-figure~\ref{fig:position-drag-end}. They can also drag the trimming handles
-to trim the song, as shown in figure~\ref{fig:trim}.
-
-\begin{figure}
-  \centering
-  \includegraphics[width=6.25in]{position-drag-start}
-  \caption{Positioning Audio (Fig 1 of 2).}
-  \label{fig:position-drag-start}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \includegraphics[width=6.25in]{position-drag-end}
-  \caption{Positioning Audio (Fig 2 of 2).}
-  \label{fig:position-drag-end}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \includegraphics[width=6.25in]{trim}
-  \caption{Trimming Audio.}
-  \label{fig:trim}
-\end{figure}
-
+  \lstinputlisting{imgsyntax.md}
+  \caption{Static Questions - Image Embed Syntax.}
+  \label{fig:imgsyntax}
+\end {figure}
 
 \subsection{Problem Statement}\label{sec:problem}
-When positionable/trimmable audio was first released to content creators,
-some content creators noticed a delay between releasing the mouse when
-positioning or trimming an audio track and when the preview video would
-start playing.
+Hotlinking is considered poor practice for a variety of reasons. In particular, 
+it reduces site performance for Khan Academy users, due to the need for 
+additional DNS lookups and HTTP connections. It also puts undue financial costs 
+on the owner of the other server. In order to remove the need for content 
+creators to hotlink images, Khan Academy needs to procure a hosting service for 
+the images used in the static questions.
 
-Whenever the user positions or trims an audio track, the edits are
-serialized in an edit list and sent to the front-end server. The front-end
-server sends a message to tell the render server to render a low-quality
-preview of the video, before returning the location of the preview video to
-the front-end code. This flow is illustrated in the swimlane activity
-diagram in figure~\ref{fig:swimlane}.
-
-\begin{figure}
-  \centering
-  \includegraphics{swimlane}
-  \caption{Swimlane Activity Diagram.}
-  \label{fig:swimlane}
-\end{figure}
-
-A large number of UI events may be generated when the user positions or
-trims an audio clip on the video enhancements page. An edit list is generated
-for each UI event, with a round-trip to the server and back to process each
-event.  This worked fine in development, when each round-trip was virtually
-instantaneous. However, this round-trip is estimated to take 600ms for a
-typical content creator.\footnote{The calculation to determine this figure is
-detailed in appendix~\ref{app:calculating}.}. When a large number of events
-occur, the user experiences a large delay before seeing a preview.
-
-This report seeks to select an appropate mitigation strategy for the delay
-in the user interface for positionable/trimmable audio.
+This report seeks to select an appropriate hosting provider for images included 
+in static questions on Khan Academy.
 
 % You must have either an Analysis or a Synthesis section.
 \section{Analysis}
